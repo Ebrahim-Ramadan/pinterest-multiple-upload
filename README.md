@@ -1,1 +1,1 @@
-# pinterest-multiple-upload
+# pinterest-automatic-upload
