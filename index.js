@@ -8,7 +8,7 @@ async function automatePinterest() {
 
   try {
     // Navigate to Pinterest and log in
-    await page.goto('https://www.pinterest.com');
+    await page.goto('https://www.pinterest.com/login');
     // Perform login here
 
     // Navigate to the pin creation page
