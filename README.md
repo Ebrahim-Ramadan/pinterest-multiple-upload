@@ -6,3 +6,4 @@ curl --location --request GET 'https://api.pinterest.com/v5/boards' \
 --header 'Authorization: Bearer <Add your token here>' \
 --header 'Content-Type: application/json'
 ```
+you could fetch the boards of your account, 
