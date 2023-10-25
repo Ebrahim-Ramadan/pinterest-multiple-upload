@@ -1,40 +1,22 @@
-require('dotenv').config(); // for .env nodejs server-side apps
+const PinterestAPI = require("pinterest-node-api");
+const pinterest = new PinterestAPI({
+  api_key: `${process.env.Pinterest_APP_ID}`,
+  secret: "YOUR_API_SECRET"
+});
+pinterest.setUserToken(`${process.env.Pinterest_Access_Token}`);
 
 
-async function sendUserOAuth() {
+const query = {
+  bookmark: '25',
+  page_size: 12,
+  privacy: '',
+};
+const ListBoards = async () => {
   try {
-    const res = await fetch(`https://www.pinterest.com/oauth/?client_id=${process.env.Pinterest_APP_ID}&redirect_uri={YOUR_REDIRECT_URI}&response_type=code&scope=boards:read,pins:read&state={YOUR_OPTIONAL_STRING}`,)
-
-    if (res) {
-      console.log('res', res);
-      // const result = await res.json();
-      // console.log("sendUserOAuth:", result);
-    }
-  } catch (error) {
-    console.log('sendUserOAuth',error);
+    const response = await pinterest.boards.list({ query });
+    if (response)  console.log(response);
+  } catch (error) { 
+    return;
   }
 }
-
-
-async function ListBoards() {
-  try {
-
-//     curl --location --request GET 'https://api.pinterest.com/v5/boards' \
-// --header 'Authorization: Bearer <Add your token here>' \
-//     --header 'Content-Type: application/json'
-    
-    const response = await fetch("https://api.pinterest.com/v5/boards", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${process.env.Pinterest_Access_Token}`,
-        "Content-Type": "application/json",
-      }
-    });
-
-    const result = await response.json();
-    console.log("Success:", result);
-  } catch (error) {
-    console.error("Error:", error);
-  }
-}
-sendUserOAuth()
+ListBoards()

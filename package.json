@@ -12,6 +12,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "puppeteer": "^21.4.0"
+    "pinterest-node-api": "^0.0.9"
   }
 }
