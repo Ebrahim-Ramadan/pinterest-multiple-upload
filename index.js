@@ -1,27 +1,40 @@
-const puppeteer = require('puppeteer');
+require('dotenv').config(); // for .env nodejs server-side apps
 
-async function automatePinterest() {
-    const browser = await puppeteer.launch({
-        headless: 'new'
-  });
-  const page = await browser.newPage();
 
+async function sendUserOAuth() {
   try {
-    // Navigate to Pinterest and log in
-    await page.goto('https://www.pinterest.com/login');
-    // Perform login here
+    const res = await fetch(`https://www.pinterest.com/oauth/?client_id=${process.env.Pinterest_APP_ID}&redirect_uri={YOUR_REDIRECT_URI}&response_type=code&scope=boards:read,pins:read&state={YOUR_OPTIONAL_STRING}`,)
 
-    // Navigate to the pin creation page
-    await page.goto('https://www.pinterest.com/create');
-
-    // Fill in pin details and submit the form
-    // ...
-
+    if (res) {
+      console.log('res', res);
+      // const result = await res.json();
+      // console.log("sendUserOAuth:", result);
+    }
   } catch (error) {
-    console.error('An error occurred:', error);
-  } finally {
-    await browser.close();
+    console.log('sendUserOAuth',error);
   }
 }
 
-automatePinterest();
+
+async function ListBoards() {
+  try {
+
+//     curl --location --request GET 'https://api.pinterest.com/v5/boards' \
+// --header 'Authorization: Bearer <Add your token here>' \
+//     --header 'Content-Type: application/json'
+    
+    const response = await fetch("https://api.pinterest.com/v5/boards", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${process.env.Pinterest_Access_Token}`,
+        "Content-Type": "application/json",
+      }
+    });
+
+    const result = await response.json();
+    console.log("Success:", result);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+sendUserOAuth()
